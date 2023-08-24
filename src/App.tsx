@@ -1,24 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
 
+import { SimpleHello } from "./components/simple-hello";
+import {ComponentWithChild} from "./components/component-with-child";
+
+export interface Person {
+    name?: string;
+    age?: number;
+}
+
 function App() {
+  const [ person, setPerson ] = useState<Person>({});
+  const updatePersonAge = (age: number) => setPerson({ ...person, age })
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <main>
+          <form>
+            <fieldset>
+                <h2>Simple Hello example:</h2>
+                <input
+                    placeholder="enter your name"
+                    value={person.name}
+                    type="text"
+                    onChange={
+                        e => setPerson({ name: e.target.value })
+                    }
+                />
+                <SimpleHello person={person} />
+            </fieldset>
+              <fieldset>
+                  <ComponentWithChild person={person} updatePersonAge={updatePersonAge} />
+              </fieldset>
+          </form>
+      </main>
     </div>
   );
 }
