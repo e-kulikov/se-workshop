@@ -1,12 +1,13 @@
 import {Person} from "../App";
 import {ErrorMessage} from "./error-message";
+import {useEffect} from "react";
 
 interface ThatChildProps {
-    person: Person
+    personAge: Person['age']
 }
-export const ThatChild = ({ person: { age } }: ThatChildProps) => {
+export const ThatChild = ({ personAge }: ThatChildProps) => {
+    useEffect(() => console.log('updating ThatChild'));
     return <div>
-        <p>Your age is: {age}</p>
-        <ErrorMessage age={age} />
+        {!personAge ? <p>Your age is: {personAge}</p> : <p>You didn't tell </p>}
     </div>
 }

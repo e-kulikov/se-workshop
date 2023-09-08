@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState, ChangeEventHandler, useMemo} from 'react';
 import './App.css';
 
 import { SimpleHello } from "./components/simple-hello";
@@ -10,8 +10,13 @@ export interface Person {
 }
 
 function App() {
-  const [ person, setPerson ] = useState<Person>({});
-  const updatePersonAge = (age: number) => setPerson({ ...person, age })
+  const [ person, setPerson ] = useState<Person>({name: '', age: 0});
+    const updatePersonAge: ChangeEventHandler<HTMLInputElement> = useCallback(
+        (event) => setPerson((person) =>
+            ({...person, age: +event.target.value})),
+        []
+    );
+    const age = useMemo(() => person.age, [person.age]);
   return (
     <div className="App">
       <main>
@@ -29,7 +34,7 @@ function App() {
                 <SimpleHello person={person} />
             </fieldset>
               <fieldset>
-                  <ComponentWithChild person={person} updatePersonAge={updatePersonAge} />
+                  <ComponentWithChild personAge={age} updatePersonAge={updatePersonAge} />
               </fieldset>
           </form>
       </main>
